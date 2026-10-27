@@ -1,130 +1,84 @@
 # StaffSync - Modern Human Resource Management Solution
 
-StaffSync is a comprehensive web-based HR management application built using the **MERN Stack** (MongoDB, Express.js, React.js, Node.js). It streamlines and automates HR processes within an organization with role-based access for **HR**, **Managers**, and **Employees**.
+MERN stack app for HR, managers, and employees. HR manages people and announcements, managers approve team leave and assign training, and employees apply for leave, mark attendance, and update their profile.
 
-## Features
+## Stack
 
-### HR
-- Add, edit, and delete employees
-- Post and delete company announcements
-- View all leave requests
-- View attendance records
+- Backend: Node.js, Express.js, MongoDB (Mongoose), JWT, bcryptjs
+- Frontend: React (Vite), React Router, Axios, Bootstrap, Context API
 
-### Manager
-- View team leave requests (same department)
-- Approve or reject leaves
-- Create and assign training programs
+## Roles
 
-### Employee
-- Apply for leave and track leave status
-- Mark daily attendance
-- View company announcements
-- Update personal profile
+- **HR**: employee CRUD, post/delete announcements, view all leaves and attendance
+- **Manager**: view team leave requests, approve/reject, create and assign training
+- **Employee**: apply leave, view leave status, mark attendance, view announcements, update profile
 
-### General
-- JWT-based authentication
-- Password hashing with bcrypt
-- Role-based protected routes
-- Responsive UI with Bootstrap
+Managers see employees who share the same department.
 
-## Tech Stack
-
-| Layer | Technologies |
-|-------|--------------|
-| Frontend | React (Vite), React Router, Axios, Bootstrap, Context API |
-| Backend | Node.js, Express.js |
-| Database | MongoDB (Mongoose) |
-| Auth | JSON Web Token (JWT), bcryptjs |
-
-## Project Structure
+## Project structure
 
 ```
-staffsync/
-├── backend/
-│   ├── config/
-│   ├── controllers/
-│   ├── middleware/
-│   ├── models/
-│   ├── routes/
-│   ├── server.js
-│   └── .env.example
-├── frontend/
-│   ├── src/
-│   └── package.json
-└── README.md
+staffsyncc/
+  backend/
+  frontend/
 ```
 
-## Database Models
+## Prerequisites
 
-- **User**: name, email, password, role (hr / manager / employee), department
-- **Leave**: employee, fromDate, toDate, reason, status (pending / approved / rejected)
-- **Attendance**: employee, date, status
-- **Announcement**: title, message, createdBy, date
-- **Training**: title, description, manager, employees
+- Node.js
+- MongoDB running locally (or a MongoDB Atlas connection string)
 
-## Getting Started
+## Setup
 
-### Prerequisites
-- Node.js (v18 or above)
-- MongoDB Atlas account or local MongoDB
+### 1. Backend
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/gaurii183/staffsync.git
-cd staffsync
-```
-
-### 2. Setup Backend
 ```bash
 cd backend
-npm install
+copy .env.example .env
 ```
 
-Create a `.env` file in the `backend` folder (see `.env.example`):
+On macOS/Linux use `cp .env.example .env`.
+
+Edit `.env`:
+
 ```
 PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
+MONGO_URI=mongodb://localhost:27017/staffsync
+JWT_SECRET=replace_this_with_a_long_random_secret
 ```
 
-Start the server:
 ```bash
+npm install
 npm start
 ```
-Backend runs on `http://localhost:5000`
 
-### 3. Setup Frontend
-Open a new terminal:
+API runs at `http://localhost:5000`.
+
+### 2. Frontend
+
+In a second terminal:
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-Frontend runs on `http://localhost:5173`
 
-## Usage
+App runs at `http://localhost:5173`.
 
-1. Open `http://localhost:5173`
-2. Register accounts for each role (HR, Manager, Employee)
-3. Use the same department for Manager and Employee so the manager can see the team's leave requests
-4. Log in and explore the role-specific dashboard
+## Try it
 
-## Screenshots
+1. Register an **HR** account, a **Manager** account, and an **Employee** account.
+2. Use the same department for the manager and employee so team leave and training assignment work.
+3. Employee applies for leave and marks attendance.
+4. Manager approves or rejects the request and assigns training.
+5. HR posts announcements and reviews all employees, leaves, and attendance.
 
-_Add screenshots of the Login page, HR Dashboard, Manager Dashboard, and Employee Dashboard here._
+## API overview
 
-## Future Improvements
-
-- Payroll management
-- Email notifications for leave status
-- Performance reviews
-- Attendance reports and analytics
-
-## Author
-
-**YOUR NAME**
-GitHub: [@gaurii183](https://github.com/gaurii183)
-
-## License
-
-This project is for educational purposes.
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+- ` /api/hr/*` (HR JWT required)
+- ` /api/manager/*` (Manager JWT required)
+- ` /api/employee/*` (Employee JWT required)
